@@ -1,0 +1,55 @@
+API Documentation
+This document outlines the GitHub API endpoints used in this project, their functionality, and their integration into the implementation.
+
+Endpoints Used
+1. Search Repositories
+Endpoint: /search/repositories
+Description: Fetches a list of public repositories based on search criteria.
+Parameters:
+q: Query string for filtering repositories (e.g., language:python).
+sort: Sorting field (e.g., stars to sort by star count).
+order: Sorting order (desc for descending or asc for ascending).
+per_page: Number of results per page (default: 30, max: 100).
+Example Request:
+sql
+Copy code
+GET https://api.github.com/search/repositories?q=language:python&sort=stars&order=desc&per_page=5
+Response: A JSON object containing:
+Repository name (name)
+Star count (stargazers_count)
+Repository URL (html_url)
+2. Retrieve Commits
+Endpoint: /repos/{owner}/{repo}/commits
+Description: Retrieves the commit history for a specified repository.
+Parameters:
+per_page: Number of commits per page (default: 30, max: 100).
+Example Request:
+ruby
+Copy code
+GET https://api.github.com/repos/torvalds/linux/commits?per_page=5
+Response: A JSON array containing:
+Commit message (commit.message)
+Author name (commit.author.name)
+Commit URL (html_url)
+3. Retrieve Contents (Planned)
+Endpoint: /repos/{owner}/{repo}/contents/{path}
+Description: Fetches file or directory contents within a repository.
+Parameters:
+path: The file or directory path within the repository.
+Example Request:
+bash
+Copy code
+GET https://api.github.com/repos/{owner}/{repo}/contents/{path}
+Response: A JSON object containing:
+File name (name)
+File type (type)
+Download URL (download_url)
+Rate Limits
+Header: X-RateLimit-Limit (Total number of allowed requests).
+Remaining Requests: X-RateLimit-Remaining (Requests left).
+Reset Time: X-RateLimit-Reset (Time when the limit resets).
+Notes
+GitHub API rate limits allow 5000 requests/hour for authenticated users.
+To handle rate-limiting:
+Monitor X-RateLimit-Remaining.
+Wait until X-RateLimit-Reset if limits are exceeded.
