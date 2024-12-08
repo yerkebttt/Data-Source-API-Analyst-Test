@@ -1,0 +1,60 @@
+Troubleshooting Guide
+Identify Common Issues
+1. Authentication Errors
+
+Example: "401 Unauthorized"
+Check Authentication:
+Verify the GITHUB_TOKEN or access token.
+Ensure the token is active and has the necessary permissions for the requested action (e.g., repo, read:org, read:user).
+Environment Variables:
+Confirm that environment variables storing the token in Postman or scripts (e.g., Colab, Python) are correctly set and accessible.
+Token Expiry:
+If the token is expired, regenerate it and update the configuration.
+2. Rate Limiting Issues
+
+Example: "403 Forbidden" due to Rate Limit
+Check Rate Limits:
+Inspect the X-RateLimit-Remaining header in the response to confirm whether the limit has been reached.
+Wait and Retry:
+Use the X-RateLimit-Reset header to calculate the time until the rate limit resets.
+Implement retry logic with a backoff mechanism (e.g., wait before retrying requests).
+Use Authenticated Requests:
+Authenticated requests typically have higher rate limits. Ensure all requests include a valid Authorization header.
+3. Resource Not Found
+
+Example: "404 Not Found"
+Validate Endpoint and Resource:
+Confirm that the API endpoint URL is correct.
+Verify that the requested resource (e.g., repository name, owner, or file path) exists and is accessible.
+Case Sensitivity:
+Ensure correct case usage in repository names and paths, as GitHub is case-sensitive.
+4. Request Format Errors
+
+Example: "422 Unprocessable Entity"
+Verify Request Parameters:
+Ensure all required parameters are included and properly formatted.
+Check for invalid or missing query strings or request body data.
+API Documentation:
+Refer to GitHub API documentation for valid parameter formats and examples.
+5. Server-Side Errors
+
+Example: "500 Internal Server Error" or "502 Bad Gateway"
+Retry Logic:
+Implement retries with a reasonable interval in case of temporary server-side issues.
+GitHub Status:
+Check GitHub’s status page (https://www.githubstatus.com/) for any reported outages or issues.
+Handling Common Issues in Tools
+1. Postman
+
+Set Environment Variables:
+Use Postman’s environment feature to securely store and use tokens or dynamic values.
+Monitor Rate Limits:
+Add test scripts in Postman to log headers like X-RateLimit-Remaining and X-RateLimit-Reset.
+2. Colab
+
+Authentication Setup:
+Use os.environ or store tokens securely in a notebook cell for temporary use.
+Error Handling:
+Implement Python exception handling with try-except blocks to capture API errors.
+Use response.status_code to manage different error scenarios.
+By systematically addressing these common issues, the troubleshooting process becomes structured, ensuring smoother and more reliable API interactions.
